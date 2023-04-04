@@ -6,9 +6,11 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   getRepository,
 } from 'typeorm';
 import { Rider } from './Rider.entity';
+import { Transaction } from '@app/transactions/entities/transaction.entity';
 
 @Entity('payment_methods')
 export class PaymentMethod extends AbstractEntity {
@@ -30,4 +32,7 @@ export class PaymentMethod extends AbstractEntity {
     onDelete: 'CASCADE',
   })
   rider: Rider;
+
+  @OneToMany((_) => Transaction, (transaction) => transaction.payment_method)
+  transactions: Transaction[];
 }

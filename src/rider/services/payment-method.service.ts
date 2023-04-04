@@ -18,11 +18,11 @@ export class PaymentMethodService {
   constructor(
     @InjectRepository(PaymentMethod)
     private readonly paymentMethodRepository: Repository<PaymentMethod>,
+    private readonly paginationService: PaginationService,
     @InjectRepository(Rider)
     private readonly riderRepository: Repository<Rider>,
     private readonly paymentGatewayConsumer: PaymentGatewayConsumerService,
     private readonly userService: UsersService,
-    private readonly paginationService: PaginationService,
   ) {}
   private async createPaymentMethod(
     userId: number,

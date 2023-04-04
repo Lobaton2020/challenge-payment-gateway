@@ -7,13 +7,13 @@ import appConfig, {
   paymentGatewayProvider,
 } from './config/app.config';
 import { DATABASE_CONFIG } from './config/constants.config';
-import { TransactionModule } from './transaction/transaction.module';
 import { AuthModule } from './auth/auth.module';
 import { RiderModule } from './rider/rider.module';
 import databaseConfig from './config/database.config';
 import envValidate from './config/env.validate';
 import { DriverModule } from './driver/driver.module';
 import { CommonModule } from './common/common.module';
+import { TransactionModule } from './transactions/transaction.module';
 
 const ConfigModuleProvider = ConfigModule.forRoot({
   envFilePath: `.env.${process.env.NODE_ENV ?? 'development'}.local`,
@@ -32,11 +32,11 @@ const TypeOrmModuleProvider = TypeOrmModule.forRootAsync({
   imports: [
     ConfigModuleProvider,
     TypeOrmModuleProvider,
-    TransactionModule,
     DriverModule,
     RiderModule,
     AuthModule,
     CommonModule,
+    TransactionModule,
   ],
   controllers: [AppController],
 })
