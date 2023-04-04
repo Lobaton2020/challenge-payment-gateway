@@ -23,7 +23,7 @@ $ docker-compose up -d
 ```
 As soon you run the docker compose you need run the seeders with the command:
 ```
-TODO: add command
+yarn seed:run
 ```
 The application will run at the port `3000`\
 The API Rest will have a POSTMAN file attached in the folder that you can dowload. In addition you have the swagger at `http://server:port/api/v1/docs`

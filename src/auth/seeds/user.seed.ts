@@ -9,12 +9,16 @@ export class UserCreatedSeed implements Seeder {
     const password = await hash('12345', 10);
     await getManager().query(
       `INSERT INTO users ("id", "createdAt", "updatedAt", "completeName", "email", "password", "phone","rolId")
-      VALUES (1, now(), now(), 'Pedro antorio', 'driver@test.com', '${password}','+5712121222', 1);`,
+      VALUES (1, now(), now(), 'Pedro antorio', 'driver@test.com', '${password}','+573122126785', 1);`,
     );
     await getManager().query(
       `INSERT INTO users ("id", "createdAt", "updatedAt", "completeName", "email", "password", "phone","rolId")
-      VALUES (2, now(), now(), 'Juan andres', 'rider@test.com', '${password}' ,'+57 312424253', 2);`,
+      VALUES (2, now(), now(), 'Albero lineros', 'driver2@test.com', '${password}','+573242123456', 1);`,
     );
-    await getManager().query('ALTER TABLE users AUTO_INCREMENT = 2;');
+    await getManager().query(
+      `INSERT INTO users ("id", "createdAt", "updatedAt", "completeName", "email", "password", "phone","rolId")
+      VALUES (3, now(), now(), 'Juan andres', 'rider@test.com', '${password}' ,'+573241213421', 2);`,
+    );
+    await getManager().query("SELECT setval('users_id_seq', 4, false);");
   }
 }
