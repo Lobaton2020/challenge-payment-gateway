@@ -1,15 +1,26 @@
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder } from '@nestjs/swagger';
 import { SwaggerModule } from '@nestjs/swagger/dist';
 import { AppModule } from './app.module';
-import { IEnvAppConfig } from './config/app.config';
-import { APP_CONFIG } from './config/constants.config';
+import { IAppConfig } from './config/app.config';
+import { DEV_KEY, HTTP_PORT } from './config/constants.config';
+/**
+ * TODO:
+ * 1.Discover the command for generate migrations from a Models.
+ */
+const configForDevDatabase = () => {
+  const data = require('./config/database.config').default();
+  require('fs').writeFileSync('ormconfig.json', JSON.stringify(data, null, 4));
+};
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const config = app.get(ConfigService);
+  const config = app.get<IAppConfig>(ConfigService);
+  if (process.env.NODE_ENV === DEV_KEY) {
+    configForDevDatabase();
+  }
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -29,6 +40,6 @@ async function bootstrap() {
     app,
     SwaggerModule.createDocument(app, swaggerConfig),
   );
-  await app.listen(config.get<IEnvAppConfig>(APP_CONFIG).port);
+  await app.listen(config.get(HTTP_PORT));
 }
 bootstrap();

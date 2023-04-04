@@ -1,36 +1,39 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import path = require('path');
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
-import appConfig, { IEnvAppConfig } from './config/app.config';
-import { APP_CONFIG } from './config/constants.config';
-import { PaymentMethodModule } from './payment-method/payment-method.module';
+import appConfig, { jwtConfig } from './config/app.config';
+import { DATABASE_CONFIG } from './config/constants.config';
 import { TransactionModule } from './transaction/transaction.module';
+import { AuthModule } from './auth/auth.module';
+import { RiderModule } from './rider/rider.module';
+import databaseConfig from './config/database.config';
+import envValidate from './config/env.validate';
+import { DriverModule } from './driver/driver.module';
+import { CommonModule } from './common/common.module';
 
-const configModule = ConfigModule.forRoot({
+const ConfigModuleProvider = ConfigModule.forRoot({
+  envFilePath: `.env.${process.env.NODE_ENV ?? 'development'}.local`,
   isGlobal: true,
-  envFilePath: path.resolve(
-    `.env.${process.env.NODE_ENV ?? 'development'}.local`,
-  ),
-  load: [appConfig],
-  //TODO: add validation if have time
+  load: [databaseConfig, appConfig, jwtConfig],
+  validationSchema: envValidate,
 });
-const typeormModule = TypeOrmModule.forRootAsync({
+
+const TypeOrmModuleProvider = TypeOrmModule.forRootAsync({
   inject: [ConfigService],
-  useFactory: (configService: ConfigService) => ({
-    ...configService.get<IEnvAppConfig>(APP_CONFIG).database,
-    synchronize: true,
-    entities: [],
-  }),
+  useFactory: (configService: ConfigService) =>
+    configService.get<TypeOrmModuleOptions>(DATABASE_CONFIG),
 });
 
 @Module({
   imports: [
-    configModule,
-    // typeormModule,TODO: uncomment this
-    PaymentMethodModule,
+    ConfigModuleProvider,
+    TypeOrmModuleProvider,
     TransactionModule,
+    DriverModule,
+    RiderModule,
+    AuthModule,
+    CommonModule,
   ],
   controllers: [AppController],
 })
