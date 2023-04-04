@@ -1,0 +1,405 @@
+{
+	"info": {
+		"_postman_id": "3d22d824-67d0-4f7c-85f5-2c949924f675",
+		"name": "challenge-payment-gateway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11339152"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "signin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Obtener la respuesta de la solicitud\r",
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"// Obtener el token de acceso de la respuesta\r",
+									"const accessToken = responseJson.accessToken;\r",
+									"\r",
+									"// Guardar el token de acceso en la variable de entorno\r",
+									"pm.environment.set('TokenBearer', accessToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"driver@test.com\",\r\n    \"password\":\"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}auth/signin",
+							"host": [
+								"{{url}}auth"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"completeName\":\"Andres Perez 3\",\r\n    \"email\":\"admin_@gmail.com\",\r\n    \"password\":\"Avion021028@\",\r\n    \"phone\":\"+573242525500\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}auth/signup",
+							"host": [
+								"{{url}}auth"
+							],
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refreshToken",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TokenBearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInJvbCI6eyJpZCI6MSwibmFtZSI6IlVTRVIifSwibmFtZSI6IkFuZHJlcyBMb2JhdG9uIiwiaWF0IjoxNjQ3MTM3NDYwLCJleHAiOjE2NDcyMjM4NjB9.WdR5UCy-yrC5PD-iGAlVl4gXDmFYWhjojfryjg-aOUg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}auth/refreshToken",
+							"host": [
+								"{{url}}auth"
+							],
+							"path": [
+								"refreshToken"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "riders",
+			"item": [
+				{
+					"name": "Payment Methods",
+					"item": [
+						{
+							"name": "Nequi *rider",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TokenBearer}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"phone_number\":\"3242525500\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}riders/payment_methods/nequi",
+									"host": [
+										"{{url}}riders"
+									],
+									"path": [
+										"payment_methods",
+										"nequi"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Card *rider",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TokenBearer}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"number\": \"4242424242424242\",\r\n  \"cvc\": \"789\",\r\n  \"exp_month\": \"12\",\r\n  \"exp_year\": \"23\",\r\n  \"card_holder\": \"Pedro Pérez\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}riders/payment_methods/card",
+									"host": [
+										"{{url}}riders"
+									],
+									"path": [
+										"payment_methods",
+										"card"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TokenBearer}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}riders/payment_methods?page=1",
+									"host": [
+										"{{url}}riders"
+									],
+									"path": [
+										"payment_methods"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "transactions",
+			"item": [
+				{
+					"name": "Create *driver",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TokenBearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}transactions/:ride_id",
+							"host": [
+								"{{url}}transactions"
+							],
+							"path": [
+								":ride_id"
+							],
+							"variable": [
+								{
+									"key": "ride_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "rides",
+			"item": [
+				{
+					"name": "Create ride *rider",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TokenBearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}rides",
+							"host": [
+								"{{url}}rides"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Start ride *rider",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TokenBearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"start_latitud\":50.6892,\r\n    \"start_longitud\":-74.0444,\r\n    \"start_ride\":\"2023-04-04T09:36:43.772Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}rides/:ride_id/start",
+							"host": [
+								"{{url}}rides"
+							],
+							"path": [
+								":ride_id",
+								"start"
+							],
+							"variable": [
+								{
+									"key": "ride_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "End *driver",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TokenBearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"end_latitud\":40.7589,\r\n    \"end_longitud\":-73.9851,\r\n    \"end_ride\":\"2023-04-04T12:36:43.772Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}rides/:ride_id/end",
+							"host": [
+								"{{url}}rides"
+							],
+							"path": [
+								":ride_id",
+								"end"
+							],
+							"variable": [
+								{
+									"key": "ride_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}health_check",
+					"host": [
+						"{{url}}health_check"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

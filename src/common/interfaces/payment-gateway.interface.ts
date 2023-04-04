@@ -67,7 +67,7 @@ export interface IResponseTokenization {
 
 
 
-export interface PayloadTransaction {
+export interface IPayloadTransaction {
   acceptance_token: string;
   amount_in_cents: number;
   currency: string;

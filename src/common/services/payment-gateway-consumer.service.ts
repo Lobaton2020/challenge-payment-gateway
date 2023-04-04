@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import {
   ICard,
   INequi,
+  IPayloadTransaction,
   IPaymentSource,
   IResponsePayloadMerchant,
   IResponseTokenization,
@@ -77,6 +78,20 @@ export class PaymentGatewayConsumerService {
       .pipe(
         pluck('data'),
         pluck('data'),
+        catchError((error) => throwError(error.response.data.error)),
+      )
+      .toPromise();
+  }
+  createTransaction(data: IPayloadTransaction) {
+    return this.httpClient
+      .post(
+        `${this.config.urlApi}/transactions`,
+        data,
+        this.getHeaderBearer(this.config.privateKey),
+      )
+      .pipe(
+        pluck('data'),
+        tap((data) => console.log({ TRANSACTION_RESPONSE: data })),
         catchError((error) => throwError(error.response.data.error)),
       )
       .toPromise();

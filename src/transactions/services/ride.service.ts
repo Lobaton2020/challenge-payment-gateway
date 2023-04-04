@@ -24,7 +24,7 @@ export class RideService {
     private readonly transactionService: TransactionService,
   ) {}
 
-  private async getRider(riderId) {
+  async getRider(riderId) {
     const rider = await this.riderRepository.findOne({
       where: { id: riderId },
     });
@@ -75,8 +75,8 @@ export class RideService {
       throw new BadRequestException('The ride already have ended');
     }
     ride.status = enumRideStatus.ENDED;
-    const result =  await this.rideRepository.save(Object.assign(ride, payload));
-    await this.transactionService.create(ride.id)
-    return result
+    const result = await this.rideRepository.save(Object.assign(ride, payload));
+    await this.transactionService.create(ride.id);
+    return result;
   }
 }

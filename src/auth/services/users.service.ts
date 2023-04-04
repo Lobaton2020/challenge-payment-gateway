@@ -16,21 +16,24 @@ export class UsersService {
     const user = await this.userRepository.findOne({
       where: { email },
       select: ['password', 'id', 'completeName', 'email', 'status'],
-      relations: ['rol',"drivers",'riders'],
+      relations: ['rol', 'drivers', 'riders'],
     });
     if (user) return user;
     return null;
   }
 
   async findOne(id): Promise<User> {
-    return await this.userRepository.findOne({ where: { id} });
+    return await this.userRepository.findOne({
+      relations: ['addresses'],
+      where: { id },
+    });
   }
 
   async findOneForRefreshToekn(id): Promise<User> {
     return await this.userRepository.findOne({
       where: { id },
       select: ['password', 'id', 'completeName', 'email', 'status'],
-      relations: ['rol', 'documentType'],
+      relations: ['rol'],
     });
   }
 

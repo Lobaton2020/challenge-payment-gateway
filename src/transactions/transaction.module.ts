@@ -12,16 +12,18 @@ import { RiderModule } from '@app/rider/rider.module';
 import { DriverModule } from '@app/driver/driver.module';
 import { Rider } from '@app/rider/entities/Rider.entity';
 import { Driver } from '@app/driver/entities/driver.entity';
+import { Address } from '@app/auth/entities/Address.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Transaction, Rider, Ride, Driver]),
+    TypeOrmModule.forFeature([Transaction, Rider, Ride, Driver, Address]),
     CommonModule,
     AuthModule,
     RiderModule,
     DriverModule,
   ],
   controllers: [TransactionController, RideController, RideController],
-  providers: [TransactionService, RideService],
+  providers: [RideService, TransactionService],
+  exports: [RideService, TransactionService],
 })
 export class TransactionModule {}
