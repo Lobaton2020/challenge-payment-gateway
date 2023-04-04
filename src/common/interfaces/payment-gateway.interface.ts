@@ -64,3 +64,40 @@ export interface INequi {
 export interface IResponseTokenization {
   data: { id: string };
 }
+
+
+
+export interface PayloadTransaction {
+  acceptance_token: string;
+  amount_in_cents: number;
+  currency: string;
+  customer_email: string;
+  payment_method: PaymentMethod;
+  payment_source_id: number;
+  redirect_url: string;
+  reference: string;
+  customer_data: CustomerData;
+  shipping_address: ShippingAddress;
+}
+
+export interface CustomerData {
+  phone_number: string;
+  full_name: string;
+}
+
+export interface PaymentMethod {
+  type: string;
+  token: string;
+  installments: number;
+}
+
+export interface ShippingAddress {
+  address_line_1: string;
+  address_line_2: string;
+  country: string;
+  region: string;
+  city: string;
+  name: string;
+  phone_number: string;
+  postal_code: string;
+}

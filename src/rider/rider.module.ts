@@ -12,9 +12,9 @@ import { AuthModule } from '@app/auth/auth.module';
     TypeOrmModule.forFeature([Rider, PaymentMethod]),
     CommonModule,
     AuthModule,
-    
   ],
   controllers: [PaymentMethodController],
   providers: [PaymentMethodService],
+  exports: [PaymentMethodService],
 })
 export class RiderModule {}

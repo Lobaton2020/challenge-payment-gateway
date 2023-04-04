@@ -31,7 +31,6 @@ export class PaymentMethodService {
     type: enumTypePaymentSource,
   ) {
     const merchant = (await this.paymentGatewayConsumer.getMyMerchant()) as any;
-    console.log({ merchant, xx: merchant.presigned_acceptance, riderId });
     const paymentSourceId =
       (await this.paymentGatewayConsumer.createPaymentSource({
         type,
@@ -46,7 +45,6 @@ export class PaymentMethodService {
       throw new NotFoundException('Rider not found');
     }
 
-    console.log({ paymentSourceId, riderId });
     const paymentMethod = new PaymentMethod();
     paymentMethod.payment_source_id = paymentSourceId;
     paymentMethod.rider = riderId as any;
@@ -98,5 +96,16 @@ export class PaymentMethodService {
     return this.paginationService.paginate(this.paymentMethodRepository, page, {
       where: { rider: riderId },
     });
+  }
+  async findOne(riderId: number) {
+    const item = await this.paymentMethodRepository
+      .createQueryBuilder('paymentMethod')
+      .where('paymentMethod.riderId = :riderId', { riderId })
+      .andWhere('paymentMethod.status = :status', { status: true })
+      .getOne();
+    if (!item) {
+      throw new NotFoundException('Payment method not found');
+    }
+    return item;
   }
 }
