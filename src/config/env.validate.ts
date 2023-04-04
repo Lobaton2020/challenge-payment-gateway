@@ -10,6 +10,7 @@ export default Joi.object({
   JWT_EXPIRATION_TIME: Joi.string().required(),
   JWT_EXPIRATION_TIME_REFRESH: Joi.string().required(),
 
+  URL_API: Joi.string().required(),
   PUBLIC_KEY: Joi.string().required(),
   PRIVATE_KEY: Joi.string().required(),
   EVENT_KEY: Joi.string().required(),

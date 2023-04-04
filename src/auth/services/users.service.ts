@@ -16,14 +16,14 @@ export class UsersService {
     const user = await this.userRepository.findOne({
       where: { email },
       select: ['password', 'id', 'completeName', 'email', 'status'],
-      relations: ['rol'],
+      relations: ['rol',"drivers",'riders'],
     });
     if (user) return user;
     return null;
   }
 
   async findOne(id): Promise<User> {
-    return await this.userRepository.findOne(id);
+    return await this.userRepository.findOne({ where: { id} });
   }
 
   async findOneForRefreshToekn(id): Promise<User> {
@@ -35,7 +35,7 @@ export class UsersService {
   }
 
   async create(user: CreateUserDto): Promise<User> {
-    const rol = await this.rolService.findOneByName(Role.RIDER); // by default the rol is USER
+    const rol = await this.rolService.findOneByName(Role.RIDER); // by default the rol is RIDER
     if (!rol) throw new BadRequestException('Rol not found');
     const alreadyExistByEmail = await this.userRepository.findOne({
       where: { email: user.email },

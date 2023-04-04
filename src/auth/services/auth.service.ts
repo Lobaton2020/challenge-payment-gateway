@@ -37,6 +37,8 @@ export class AuthService {
       sub: user.id,
       rol: user.rol,
       name: user.completeName,
+      driverId: user.drivers?.length ? user.drivers[0]?.id : null,
+      riderId: user.riders?.length ? user.riders[0]?.id : null,
     };
 
     return {

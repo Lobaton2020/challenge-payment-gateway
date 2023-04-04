@@ -6,7 +6,7 @@ import { Rol } from '../auth/entities/Rol.entity';
 import { User } from '../auth/entities/User.entity';
 import { Driver } from '../driver/entities/driver.entity';
 import { Address } from '../auth/entities/Address.entity';
-import { Rider } from '../rider/entities/rider.entity';
+import { Rider } from '../rider/entities/Rider.entity';
 
 export default registerAs(DATABASE_CONFIG, (): TypeOrmModuleOptions & any => {
   return {

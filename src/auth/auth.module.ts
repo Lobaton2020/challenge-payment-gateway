@@ -36,8 +36,9 @@ const JwtModuleProvider = JwtModule.registerAsync({
     AuthService,
     UsersService,
     RolsService,
-    LocalStrategy,
     JwtStrategy,
+    LocalStrategy,
   ],
+  exports: [UsersService],
 })
 export class AuthModule {}

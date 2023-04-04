@@ -11,7 +11,7 @@ import { hash } from 'bcryptjs';
 import { Rol } from '@app/auth/entities/Rol.entity';
 import { AbstractEntity } from '@app/common/entities/AbstractEntity.entity';
 import { Address } from '@app/auth/entities/Address.entity';
-import { Rider } from '@app/rider/entities/rider.entity';
+import { Rider } from '@app/rider/entities/Rider.entity';
 import { Driver } from '@app/driver/entities/driver.entity';
 
 @Entity('users')

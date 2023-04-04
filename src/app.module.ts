@@ -2,7 +2,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
-import appConfig, { jwtConfig } from './config/app.config';
+import appConfig, {
+  jwtConfig,
+  paymentGatewayProvider,
+} from './config/app.config';
 import { DATABASE_CONFIG } from './config/constants.config';
 import { TransactionModule } from './transaction/transaction.module';
 import { AuthModule } from './auth/auth.module';
@@ -15,7 +18,7 @@ import { CommonModule } from './common/common.module';
 const ConfigModuleProvider = ConfigModule.forRoot({
   envFilePath: `.env.${process.env.NODE_ENV ?? 'development'}.local`,
   isGlobal: true,
-  load: [databaseConfig, appConfig, jwtConfig],
+  load: [databaseConfig, appConfig, jwtConfig, paymentGatewayProvider],
   validationSchema: envValidate,
 });
 
