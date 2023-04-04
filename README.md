@@ -54,6 +54,11 @@ password: 12345
 email: rider@test.com
 password: 12345
 ```
+## Things to do Better:
+- Add the webhook to know when the transaction state chante
+- Notifications by email, usign SQS AWS
+- Any questions just askme at `andrespipe021028@gmail.com`
+
 ## License
 
 Nest is [MIT licensed](LICENSE).
